@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Arcade</title>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@400;600;700&display=swap");
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top, #27345b, transparent 45%),
+        #090d18;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin: auto;
+      max-width: 1200px;
+      padding: 24px 20px;
+    }
+
+    .logo {
+      color: #00e5ff;
+      font-family: "Orbitron", sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: #ff3cac;
+    }
+
+    nav a {
+      color: #aeb8d8;
+      margin-left: 22px;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: #00e5ff;
+    }
+
+    .intro {
+      margin: 40px auto 25px;
+      max-width: 1200px;
+      padding: 0 20px;
+    }
+
+    .intro h1 {
+      font-family: "Orbitron", sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 10px;
+    }
+
+    .intro h1 span {
+      color: #00e5ff;
+    }
+
+    .intro p {
+      color: #9da8cb;
+    }
+
+    .controls {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+      margin: 25px auto;
+      max-width: 1200px;
+      padding: 0 20px;
+    }
+
+    select,
+    input {
+      background: #151d35;
+      border: 1px solid #344267;
+      border-radius: 7px;
+      color: white;
+      padding: 12px 15px;
+    }
+
+    input {
+      flex: 1;
+    }
+
+    .games-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(3, 1fr);
+      margin: auto;
+      max-width: 1200px;
+      padding: 0 20px 60px;
+    }
+
+    .game-card {
+      background: #151d35;
+      border: 1px solid #27365e;
+      border-radius: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .game-card:hover {
+      border-color: #00e5ff;
+      box-shadow: 0 0 22px #00e5ff55;
+      transform: translateY(-6px);
+    }
+
+    .game-image {
+      align-items: center;
+      display: flex;
+      height: 170px;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .game-image img {
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    .game-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .game-info {
+      padding: 14px;
+    }
+
+    .game-info h2 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .game-info p {
+      color: #9da8cb;
+      font-size: 0.8rem;
+    }
+
+    .game-bottom {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 13px;
+    }
+
+    .category {
+      color: #ff3cac;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .play-button {
+      background: #9147ff;
+      border: 0;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      padding: 7px 13px;
+    }
+
+    .play-button:hover {
+      background: #ff3cac;
+    }
+
+    footer {
+      border-top: 1px solid #ffffff18;
+      color: #8993b4;
+      padding: 25px;
+      text-align: center;
+    }
+
+    @media (max-width: 750px) {
+      .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      nav {
+        display: none;
+      }
+
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      input,
+      select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">GAME<span>ARCADE</span></div>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#games">Games</a>
+    </nav>
+  </header>
+
+  <section class="intro">
+    <h1>Choose a <span>Game</span></h1>
+    <p>Pick a game from the arcade and start playing.</p>
+  </section>
+
+  <div class="controls">
+    <input
+      type="text"
+      id="search"
+      placeholder="Search games..."
+      oninput="searchGames()"
+    />
+
+    <select id="category" onchange="filterGames()">
+      <option value="all">All categories</option>
+      <option value="action">Action</option>
+      <option value="racing">Racing</option>
+      <option value="adventure">Adventure</option>
+      <option value="strategy">Strategy</option>
+    </select>
+  </div>
+
+  <main class="games-grid" id="games">
+    <article class="game-card" data-category="adventure" data-name="Sacho Life">
+      <div class="game-image">
+        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" alt="Sacho Life">
+      </div>
+      <div class="game-info">
+        <h2>Sacho Life</h2>
+        <p>Explore a colorful new world.</p>
+        <div class="game-bottom">
+          <span class="category">Adventure</span>
+          <button class="play-button" onclick="playGame('Sacho Life')">Play</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="game-card" data-category="adventure" data-name="Peak">
+      <div class="game-image">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" alt="Peak">
+      </div>
+      <div class="game-info">
+        <h2>Peak</h2>
+        <p>Climb higher and beat the mountain.</p>
+        <div class="game-bottom">
+          <span class="category">Adventure</span>
+          <button class="play-button" onclick="playGame('Peak')">Play</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="game-card" data-category="racing" data-name="Turbo Drive">
+      <div class="game-image">
+        <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80" alt="Turbo Drive">
+      </div>
+      <div class="game-info">
+        <h2>Turbo Drive</h2>
+        <p>Race against players at top speed.</p>
+        <div class="game-bottom">
+          <span class="category">Racing</span>
+          <button class="play-button" onclick="playGame('Turbo Drive')">Play</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="game-card" data-category="action" data-name="Cluster Truck">
+      <div class="game-image">
+        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80" alt="Cluster Truck">
+      </div>
+      <div class="game-info">
+        <h2>Cluster Truck</h2>
+        <p>Jump across trucks and avoid obstacles.</p>
+        <div class="game-bottom">
+          <span class="category">Action</span>
+          <button class="play-button" onclick="playGame('Cluster Truck')">Play</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="game-card" data-category="action" data-name="Granny Escape">
+      <div class="game-image">
+        <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=800&q=80" alt="Granny Escape">
+      </div>
+      <div class="game-info">
+        <h2>Granny Escape</h2>
+        <p>Find your way out before time runs out.</p>
+        <div class="game-bottom">
+          <span class="category">Action</span>
+          <button class="play-button" onclick="playGame('Granny Escape')">Play</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="game-card" data-category="strategy" data-name="Battle Kingdom">
+      <div class="game-image">
+        <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=800&q=80" alt="Battle Kingdom">
+      </div>
+      <div class="game-info">
+        <h2>Battle Kingdom</h2>
+        <p>Build your army and defeat your enemies.</p>
+        <div class="game-bottom">
+          <span class="category">Strategy</span>
+          <button class="play-button" onclick="playGame('Battle Kingdom')">Play</button>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    © 2026 GameArcade
+  </footer>
+
+  <script>
+    function playGame(gameName) {
+      alert("Starting " + gameName + "...");
+    }
+
+    function filterGames() {
+      const selectedCategory = document.getElementById("category").value;
+      const cards = document.querySelectorAll(".game-card");
+
+      cards.forEach(function(card) {
+        const cardCategory = card.dataset.category;
+
+        if (
+          selectedCategory === "all" ||
+          selectedCategory === cardCategory
+        ) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    function searchGames() {
+      const searchText = document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+      const cards = document.querySelectorAll(".game-card");
+
+      cards.forEach(function(card) {
+        const gameName = card.dataset.name.toLowerCase();
+
+        if (gameName.includes(searchText)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
