@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turbo Drive</title>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #111;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background: #555;
+    }
+
+    #score {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 2;
+      color: white;
+      font-size: 20px;
+    }
+
+    #gameOver {
+      display: none;
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      z-index: 3;
+      transform: translate(-50%, -50%);
+      padding: 25px;
+      border-radius: 10px;
+      color: white;
+      background: #171b35;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: 0;
+      border-radius: 6px;
+      color: white;
+      background: #a936ff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="score">Score: 0</div>
+
+  <div id="gameOver">
+    <h2>Game Over</h2>
+    <p id="finalScore"></p>
+    <button onclick="restartGame()">Play Again</button>
+    <br><br>
+    <a href="../index.html" style="color:white;">Back to Games</a>
+  </div>
+
+  <canvas id="game" width="400" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+
+    const scoreText = document.getElementById("score");
+    const gameOverScreen = document.getElementById("gameOver");
+    const finalScore = document.getElementById("finalScore");
+
+    const keys = {};
+
+    let player;
+    let enemy;
+    let score;
+    let gameOver;
+
+    document.addEventListener("keydown", event => {
+      keys[event.key] = true;
+    });
+
+    document.addEventListener("keyup", event => {
+      keys[event.key] = false;
+    });
+
+    function restartGame() {
+      player = {
+        x: 175,
+        y: 500,
+        width: 50,
+        height: 80,
+        speed: 6
+      };
+
+      enemy = {
+        x: Math.random() * 350,
+        y: -100,
+        width: 50,
+        height: 80,
+        speed: 4
+      };
+
+      score = 0;
+      gameOver = false;
+
+      scoreText.textContent = "Score: 0";
+      gameOverScreen.style.display = "none";
+    }
+
+    function drawRoad() {
+      ctx.fillStyle = "#555";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = "white";
+      ctx.lineWidth = 5;
+      ctx.setLineDash([30, 30]);
+
+      ctx.beginPath();
+      ctx.moveTo(200, 0);
+      ctx.lineTo(200, 600);
+      ctx.stroke();
+
+      ctx.setLineDash([]);
+    }
+
+    function drawCar(car, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(car.x, car.y, car.width, car.height);
+
+      ctx.fillStyle = "#111";
+      ctx.fillRect(car.x + 8, car.y + 12, 34, 20);
+    }
+
+    function update() {
+      if (gameOver) return;
+
+      if (keys["ArrowLeft"] || keys["a"]) {
+        player.x -= player.speed;
+      }
+
+      if (keys["ArrowRight"] || keys["d"]) {
+        player.x += player.speed;
+      }
+
+      player.x = Math.max(
+        0,
+        Math.min(canvas.width - player.width, player.x)
+      );
+
+      enemy.y += enemy.speed;
+
+      if (enemy.y > canvas.height) {
+        enemy.y = -100;
+        enemy.x = Math.random() * (canvas.width - enemy.width);
+        enemy.speed += 0.25;
+
+        score++;
+        scoreText.textContent = `Score: ${score}`;
+      }
+
+      const collision =
+        player.x < enemy.x + enemy.width &&
+        player.x + player.width > enemy.x &&
+        player.y < enemy.y + enemy.height &&
+        player.y + player.height > enemy.y;
+
+      if (collision) {
+        gameOver = true;
+        finalScore.textContent = `Your score was ${score}`;
+        gameOverScreen.style.display = "block";
+      }
+    }
+
+    function draw() {
+      drawRoad();
+      drawCar(player, "#00aaff");
+      drawCar(enemy, "#ff3333");
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    restartGame();
+    gameLoop();
+  </script>
+</body>
+</html>
