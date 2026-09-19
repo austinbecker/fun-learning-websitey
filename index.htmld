@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameZone - Choose Your Game</title>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@400;600;700&display=swap");
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #080b18;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      padding: 25px 8%;
+    }
+
+    .logo {
+      color: #00e5ff;
+      font-family: "Orbitron", sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: #ff3cac;
+    }
+
+    nav a {
+      color: #b9c0df;
+      margin-left: 25px;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: #00e5ff;
+    }
+
+    .hero {
+      padding: 65px 20px 35px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-family: "Orbitron", sans-serif;
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: #00e5ff;
+    }
+
+    .hero p {
+      color: #a7afd0;
+      font-size: 1.05rem;
+    }
+
+    .games-container {
+      display: grid;
+      gap: 22px;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 45px auto;
+      max-width: 1150px;
+      padding: 0 20px;
+    }
+
+    .game-card {
+      background: #131932;
+      border: 2px solid transparent;
+      border-radius: 16px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .game-card:hover,
+    .game-card.selected {
+      border-color: #00e5ff;
+      box-shadow: 0 0 25px #00e5ff44;
+      transform: translateY(-8px);
+    }
+
+    .game-card img {
+      display: block;
+      height: 170px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .game-content {
+      padding: 18px;
+    }
+
+    .game-content h2 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .game-content p {
+      color: #9da7cc;
+      font-size: 0.85rem;
+    }
+
+    .game-tag {
+      color: #ff3cac;
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-top: 12px;
+      text-transform: uppercase;
+    }
+
+    .start-area {
+      margin: 25px auto 70px;
+      text-align: center;
+    }
+
+    #selected-game {
+      color: #a7afd0;
+      margin-bottom: 18px;
+    }
+
+    #selected-game strong {
+      color: #00e5ff;
+    }
+
+    button {
+      background: linear-gradient(90deg, #9147ff, #ff3cac);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 14px 30px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      box-shadow: 0 0 25px #ff3cac88;
+      transform: scale(1.05);
+    }
+
+    button:disabled {
+      background: #414762;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    footer {
+      border-top: 1px solid #ffffff15;
+      color: #8c95b8;
+      padding: 25px;
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .games-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      nav {
+        display: none;
+      }
+
+      .games-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">GAME<span>ZONE</span></div>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#games">Games</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Choose Your <span>Game</span></h1>
+    <p>Select a game below and get ready to play.</p>
+  </section>
+
+  <main>
+    <section class="games-container" id="games">
+      <article class="game-card" onclick="selectGame(this, 'Cyber Assault')">
+        <img
+          src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80"
+          alt="Cyber Assault"
+        />
+
+        <div class="game-content">
+          <h2>Cyber Assault</h2>
+          <p>Fight enemies in a futuristic battle arena.</p>
+          <div class="game-tag">Action</div>
+        </div>
+      </article>
+
+      <article class="game-card" onclick="selectGame(this, 'Turbo Rush')">
+        <img
+          src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80"
+          alt="Turbo Rush"
+        />
+
+        <div class="game-content">
+          <h2>Turbo Rush</h2>
+          <p>Race against other players at incredible speeds.</p>
+          <div class="game-tag">Racing</div>
+        </div>
+      </article>
+
+      <article class="game-card" onclick="selectGame(this, 'Pixel Legends')">
+        <img
+          src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80"
+          alt="Pixel Legends"
+        />
+
+        <div class="game-content">
+          <h2>Pixel Legends</h2>
+          <p>Explore a classic pixel-art adventure world.</p>
+          <div class="game-tag">Adventure</div>
+        </div>
+      </article>
+
+      <article class="game-card" onclick="selectGame(this, 'Battle Kingdom')">
+        <img
+          src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=800&q=80"
+          alt="Battle Kingdom"
+        />
+
+        <div class="game-content">
+          <h2>Battle Kingdom</h2>
+          <p>Build your army and defeat rival kingdoms.</p>
+          <div class="game-tag">Strategy</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="start-area">
+      <p id="selected-game">Choose a game to continue.</p>
+      <button id="start-button" onclick="startGame()" disabled>
+        Start Game
+      </button>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 GameZone. Choose your game and have fun!
+  </footer>
+
+  <script>
+    let selectedGame = "";
+
+    function selectGame(card, gameName) {
+      document.querySelectorAll(".game-card").forEach(function (gameCard) {
+        gameCard.classList.remove("selected");
+      });
+
+      card.classList.add("selected");
+      selectedGame = gameName;
+
+      document.getElementById("selected-game").innerHTML =
+        "You selected: <strong>" + gameName + "</strong>";
+
+      document.getElementById("start-button").disabled = false;
+    }
+
+    function startGame() {
+      if (selectedGame === "") {
+        return;
+      }
+
+      alert("Starting " + selectedGame + "...");
+    }
+  </script>
+</body>
+</html>
